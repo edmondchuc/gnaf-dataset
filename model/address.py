@@ -225,37 +225,37 @@ class Address(GNAFModel):
                 self.secondary_addresses[r.secondary_pid] = a.address_string
 
             # MBs
-            self.mesh_block_2011s = {}
-            self.mesh_block_2016s = {}
-            s6 = sql.SQL('''SELECT 
-                              mb_2011_code,
-                              mb_2016_code, 
-                              a.uri mb2011_uri, 
-                              a.prefLabel mb2011_prefLabel,
-                              b.uri mb2016_uri, 
-                              b.prefLabel mb2016_prefLabel  
-                            FROM gnaf.address_mesh_block_2016_view
-                            INNER JOIN gnaf.address_mesh_block_2011_view 
-                            ON gnaf.address_mesh_block_2016_view.address_detail_pid 
-                            = gnaf.address_mesh_block_2011_view.address_detail_pid
-                            LEFT JOIN codes.meshblockmatch a ON gnaf.address_mesh_block_2011_view.mb_match_code = a.code 
-                            LEFT JOIN codes.meshblockmatch b ON gnaf.address_mesh_block_2016_view.mb_match_code = b.code 
-                            WHERE gnaf.address_mesh_block_2016_view.address_detail_pid = {id};''') \
-                .format(id=sql.Literal(self.id))
+            # self.mesh_block_2011s = {}
+            # self.mesh_block_2016s = {}
+            # s6 = sql.SQL('''SELECT
+            #                   mb_2011_code,
+            #                   mb_2016_code,
+            #                   a.uri mb2011_uri,
+            #                   a.prefLabel mb2011_prefLabel,
+            #                   b.uri mb2016_uri,
+            #                   b.prefLabel mb2016_prefLabel
+            #                 FROM gnaf.address_mesh_block_2016_view
+            #                 INNER JOIN gnaf.address_mesh_block_2011_view
+            #                 ON gnaf.address_mesh_block_2016_view.address_detail_pid
+            #                 = gnaf.address_mesh_block_2011_view.address_detail_pid
+            #                 LEFT JOIN codes.meshblockmatch a ON gnaf.address_mesh_block_2011_view.mb_match_code = a.code
+            #                 LEFT JOIN codes.meshblockmatch b ON gnaf.address_mesh_block_2016_view.mb_match_code = b.code
+            #                 WHERE gnaf.address_mesh_block_2016_view.address_detail_pid = {id};''') \
+            #     .format(id=sql.Literal(self.id))
 
-            self.cursor.execute(s6)
-            for row in self.cursor.fetchall():
-                r = config.reg(self.cursor, row)
-                self.mesh_block_2011s[config.URI_MB_2011_INSTANCE_BASE + r.mb_2011_code] = {
-                    'string': r.mb_2011_code,
-                    'subclass_uri': r.mb2011_uri,
-                    'subclass_label': r.mb2011_preflabel  # note use of preflabel, not prefLabel
-                }
-                self.mesh_block_2016s[config.URI_MB_2016_INSTANCE_BASE + r.mb_2016_code] = {
-                    'string': r.mb_2016_code,
-                    'subclass_uri': r.mb2016_uri,
-                    'subclass_label': r.mb2016_preflabel  # note use of preflabel, not prefLabel
-                }
+            # self.cursor.execute(s6)
+            # for row in self.cursor.fetchall():
+            #     r = config.reg(self.cursor, row)
+            #     self.mesh_block_2011s[config.URI_MB_2011_INSTANCE_BASE + r.mb_2011_code] = {
+            #         'string': r.mb_2011_code,
+            #         'subclass_uri': r.mb2011_uri,
+            #         'subclass_label': r.mb2011_preflabel  # note use of preflabel, not prefLabel
+            #     }
+            #     self.mesh_block_2016s[config.URI_MB_2016_INSTANCE_BASE + r.mb_2016_code] = {
+            #         'string': r.mb_2016_code,
+            #         'subclass_uri': r.mb2016_uri,
+            #         'subclass_label': r.mb2016_preflabel  # note use of preflabel, not prefLabel
+            #     }
 
     def export_html(self, view='gnaf'):
         if view == 'gnaf':
@@ -308,10 +308,10 @@ class Address(GNAFModel):
                 principal_addresses=self.principal_addresses,
                 secondary_addresses=self.secondary_addresses,
                 primary_addresses=self.primary_addresses,
-                mesh_block_2011_uri=config.URI_MB_2011_INSTANCE_BASE + '%s',
-                mesh_block_2011s=self.mesh_block_2011s,
-                mesh_block_2016_uri=config.URI_MB_2016_INSTANCE_BASE + '%s',
-                mesh_block_2016s=self.mesh_block_2016s,
+                # mesh_block_2011_uri=config.URI_MB_2011_INSTANCE_BASE + '%s',
+                # mesh_block_2011s=self.mesh_block_2011s,
+                # mesh_block_2016_uri=config.URI_MB_2016_INSTANCE_BASE + '%s',
+                # mesh_block_2016s=self.mesh_block_2016s,
                 street_string=self.street_string,
                 schemaorg=self.export_schemaorg()
             )
